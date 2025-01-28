@@ -1,0 +1,13 @@
+[Unit]
+Description=Run Static IP Script
+After=network-online.target
+
+[Service]
+ExecStart=/home/pi/saved_scripts/ip_check
+WorkingDirectory=/home/pi/saved_scripts
+User=root
+Group=root
+Restart=on-failure
+
+[Install]
+WantedBy=multi-user.target

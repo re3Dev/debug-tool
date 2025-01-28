@@ -1,0 +1,31 @@
+#!/bin/bash
+
+chown root:root /pi/saved_scripts/eth_setup
+
+apt update
+apt install dnsmasq -y
+
+systemctl enable systemd-networkd
+systemctl restart systemd-networkd
+
+bash -c 'cat <<EOL >> /etc/dnsmasq.conf
+# DHCP Configuration for Ethernet interface (eth0)
+interface=eth0
+bind-dynamic
+dhcp-range=192.168.4.2,192.168.4.2,255.255.255.0,24h
+EOL'
+
+systemctl restart dhcpcd
+
+systemctl start dnsmasq
+systemctl enable dnsmasq
+
+bash -c 'cat <<EOL >> /etc/systemd/network/10-eth0.network
+[Match]
+Name=eth0
+
+[Network]
+Address=192.168.4.1/24
+EOL'
+
+echo "Setup complete. DHCP configuration added and dnsmasq restarted."
