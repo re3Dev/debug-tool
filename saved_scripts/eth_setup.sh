@@ -11,7 +11,8 @@ bash -c 'cat <<EOL >> /etc/dnsmasq.conf
 # DHCP Configuration for Ethernet interface (eth0)
 interface=eth0
 bind-dynamic
-dhcp-range=192.168.4.2,192.168.4.2,255.255.255.0,24h
+dhcp-range=192.168.4.2,192.168.4.2,255.255.255.0,1m
+dhcp-authoritative
 EOL'
 
 # Restart dhcpcd and dnsmasq

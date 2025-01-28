@@ -30,7 +30,7 @@ actions:
 
   # MY COMMAND (Grabs the klippy log from the printer)
   - title: Grab Logs from Printer
-    shell: sshpass -p "raspberry" scp -o StrictHostKeyChecking=no pi@flex:/home/pi/printer_data/logs/klippy.log /home/pi/saved_logs && echo "Success!"
+    shell: sshpass -p "raspberry" scp -o StrictHostKeyChecking=no pi@192.168.4.2:/home/pi/printer_data/logs/klippy.log /home/pi/saved_logs/klippy_$(date +"%T").log && echo "Success!" || echo "Failed!"
     icon: '&#83'
     popupOnStart: execution-dialog-stdout-only
 
