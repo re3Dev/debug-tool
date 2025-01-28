@@ -1,6 +1,6 @@
 #!/bin/bash
 
-chown root:root /pi/debug-tool/saved_scripts/eth_setup
+chown root:root /home/pi/debug-tool/saved_scripts/eth_setup
 
 # Enable and start systemd-networkd
 systemctl enable systemd-networkd
