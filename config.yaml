@@ -28,20 +28,19 @@ actions:
     icon: '&#80'
     popupOnStart: execution-dialog-stdout-only
 
-  # MY COMMAND (Grabs the klippy log from the printer)
-  - title: Grab Logs from Printer
+  # Grabs the Klippy Log from the printer
+  - title: Grab Logs
     shell: sshpass -p "raspberry" scp -o StrictHostKeyChecking=no pi@192.168.4.2:/home/pi/printer_data/logs/klippy.log /home/pi/saved_logs/klippy_$(date +"%T").log && echo "Success!" || echo "Failed!"
     icon: '&#83'
     popupOnStart: execution-dialog-stdout-only
 
-
+  #Pops up the printer's interface on the screen
   - title: Interface Pop-up
     icon: '&#73'
     shell: su - pi -c "chromium-browser --no-sandbox --kiosk --zoom=100 file:///home/pi/interface.html"
     popupOnStart: execution-dialog-stdout-only
 
-  # This uses `popupOnStart: execution-dialog` to show a dialog with more
-  # information about the command that was run.
+  # Connects the Deck to the keyboard
   - title: Keyboard Connect
     shell: /home/pi/saved_scripts/btconnect.sh
     icon: '&#66'
