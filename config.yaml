@@ -35,18 +35,17 @@ actions:
     popupOnStart: execution-dialog-stdout-only
 
 
-  # This uses `popupOnStart: execution-dialog-stdout-only` to simply show just
-  # the command output.
-  - title: Check disk space
-    icon: disk
-    shell: df -h /media
+  - title: Interface Pop-up
+    icon: '&#73'
+    shell: su - pi -c "chromium-browser --no-sandbox --kiosk --zoom=100 file:///home/pi/interface.html"
     popupOnStart: execution-dialog-stdout-only
 
   # This uses `popupOnStart: execution-dialog` to show a dialog with more
   # information about the command that was run.
-  - title: check dmesg logs
-    shell: dmesg | tail
-    icon: logs
+  - title: Keyboard Connect
+    shell: /home/pi/saved_scripts/btconnect.sh
+    icon: '&#66'
+    timeout: 15
     popupOnStart: execution-dialog
 
   # This uses `popupOnStart: execution-button` to display a mini button that
