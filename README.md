@@ -15,3 +15,5 @@
 - Using 'StrictHostKeyChecking=no' to allow us to bypass the security check when changing MAC addresses between machines.
 - MADE A NETWORK CABLE :)
 - Made the bluetooth Keyboard Trusted
+- Used Entities to make the dropdown menu for the load graph update dyamically
+- Utilized a Json File to keep track of the logs that were grabbed from the printer
