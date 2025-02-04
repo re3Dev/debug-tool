@@ -28,22 +28,25 @@ actions:
     icon: '&#80'
     popupOnStart: execution-dialog-stdout-only
 
-  # Grabs the Klippy Log from the printer
+  # MY COMMAND (Grabs the klippy log from the printer)
   - title: Grab Logs
-    shell: sshpass -p "raspberry" scp -o StrictHostKeyChecking=no pi@192.168.4.2:/home/pi/printer_data/logs/klippy.log /home/pi/saved_logs/klippy_$(date +"%T").log && echo "Success!" || echo "Failed!"
-    icon: '&#83'
+    shell: /home/pi/saved_scripts/save_log.sh
+    icon: '&#76'
     popupOnStart: execution-dialog-stdout-only
 
-  #Pops up the printer's interface on the screen
+
+  # This uses `popupOnStart: execution-dialog-stdout-only` to simply show just
+  # the command output.
   - title: Interface Pop-up
     icon: '&#73'
     shell: su - pi -c "chromium-browser --no-sandbox --kiosk --zoom=100 file:///home/pi/interface.html"
     popupOnStart: execution-dialog-stdout-only
 
-  # Connects the Deck to the keyboard
+  # This uses `popupOnStart: execution-dialog` to show a dialog with more
+  # information about the command that was run.
   - title: Keyboard Connect
     shell: /home/pi/saved_scripts/btconnect.sh
-    icon: '&#66'
+    icon: '&#9000'
     timeout: 15
     popupOnStart: execution-dialog
 
@@ -59,15 +62,29 @@ actions:
   # your own scripts. Here `maxConcurrent` stops the script running multiple
   # times in parallel. There is also a timeout that will kill the command if it
   # runs for too long.
-  - title: Run backup script
-    shell: /opt/backupScript.sh
-    shellAfterCompleted: "apprise -t 'Notification: Backup script completed' -b 'The backup script completed with code {{ exitCode}}. The log is: \n {{ output }} '"
-    maxConcurrent: 1
-    timeout: 10
-    icon: backup
-    popupOnStart: execution-dialog
+  - title: Generate Load Graph
+    icon: clock
+    timeout: 20
+    shell: "/home/pi/klipper/scripts/graphstats.py /home/pi/saved_logs/{{ logToView }} -o /home/pi/loadgraph.png"
+    popupOnStart: execution-dialog-stdout-only
+    arguments:
+      - name: logToView
+        entity: log
+        choices:
+          - value: '{{ log.Name }}'
+            title: '{{ log.Name }}'
 
-  # When you want to prompt users for input, that is when you should use
+
+  - title: restart container
+    shell: 'docker restart {{ containerToRestart }}'
+    arguments:
+      - name: containerToRestart
+        entity: container
+        title: 'Select Container'
+        choices:
+          - value: '{{ container.Names }}'
+            title: '{{ container.Names }}'
+
   # `arguments` - this presents a popup dialog and asks for argument values.
   #
   # Docs: https://docs.olivetin.app/action-ping.html
@@ -252,6 +269,9 @@ entities:
 
   - file: entities/containers.json
     name: container
+
+  - file: /etc/OliveTin/entities/logs.json
+    name: log
 
 # Dashboards are a way of taking actions from the default "actions" view, and
 # organizing them into groups - either into folders, or fieldsets.
