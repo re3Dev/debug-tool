@@ -12,6 +12,7 @@ logLevel: "INFO"
 checkForUpdates: false
 
 themeName: dark-mode
+pageTitle: re:3D
 
 # Actions are commands that are executed by OliveTin, and normally show up as
 # buttons on the WebUI.
@@ -32,7 +33,7 @@ actions:
   - title: Grab Logs
     shell: /home/pi/saved_scripts/save_log.sh
     icon: '&#76'
-    popupOnStart: execution-dialog-stdout-only
+    popupOnStart: default
 
 
   # This uses `popupOnStart: execution-dialog-stdout-only` to simply show just
@@ -40,7 +41,7 @@ actions:
   - title: Interface Pop-up
     icon: '&#73'
     shell: su - pi -c "chromium-browser --no-sandbox --kiosk --zoom=100 file:///home/pi/interface.html"
-    popupOnStart: execution-dialog-stdout-only
+    popupOnStart: default
 
   # This uses `popupOnStart: execution-dialog` to show a dialog with more
   # information about the command that was run.
@@ -48,15 +49,14 @@ actions:
     shell: /home/pi/saved_scripts/btconnect.sh
     icon: '&#9000'
     timeout: 15
-    popupOnStart: execution-dialog
+    popupOnStart: default
 
   # This uses `popupOnStart: execution-button` to display a mini button that
   # links to the logs.
-  - title: date
-    shell: date
-    timeout: 6
-    icon: clock
-    popupOnStart: execution-button
+  - title: Help
+    shell: su - pi -c "chromium-browser --no-sandbox --kiosk --zoom=100 file:///home/pi/help.html"
+    icon: '&#63'
+    popupOnStart: default
 
   # You are not limited to operating system commands, and of course you can run
   # your own scripts. Here `maxConcurrent` stops the script running multiple
@@ -66,7 +66,7 @@ actions:
     icon: clock
     timeout: 20
     shell: "/home/pi/klipper/scripts/graphstats.py /home/pi/saved_logs/{{ logToView }} -o /home/pi/loadgraph.png"
-    popupOnStart: execution-dialog-stdout-only
+    popupOnStart: default
     trigger: Display Last Loadgraph
     arguments:
       - name: logToView
@@ -79,7 +79,7 @@ actions:
   - title: Display Last Loadgraph
     shell: su - pi -c "chromium-browser --no-sandbox --kiosk --zoom=100 file:///home/pi/loadgraph.html"
     icon: '&#128202'
-    popupOnStart: execution-dialog-stdout-only
+    popupOnStart: default
 
 
   # `arguments` - this presents a popup dialog and asks for argument values.
