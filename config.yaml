@@ -67,6 +67,7 @@ actions:
     timeout: 20
     shell: "/home/pi/klipper/scripts/graphstats.py /home/pi/saved_logs/{{ logToView }} -o /home/pi/loadgraph.png"
     popupOnStart: execution-dialog-stdout-only
+    trigger: Display Last Loadgraph
     arguments:
       - name: logToView
         entity: log
@@ -75,15 +76,11 @@ actions:
             title: '{{ log.Name }}'
 
 
-  - title: restart container
-    shell: 'docker restart {{ containerToRestart }}'
-    arguments:
-      - name: containerToRestart
-        entity: container
-        title: 'Select Container'
-        choices:
-          - value: '{{ container.Names }}'
-            title: '{{ container.Names }}'
+  - title: Display Last Loadgraph
+    shell: su - pi -c "chromium-browser --no-sandbox --kiosk --zoom=100 file:///home/pi/loadgraph.html"
+    icon: '&#128202'
+    popupOnStart: execution-dialog-stdout-only
+
 
   # `arguments` - this presents a popup dialog and asks for argument values.
   #

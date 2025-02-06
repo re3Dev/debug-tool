@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Loadgraph Page</title>
+</head>
+<style>
+    body {
+        margin: 0;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        overflow: hidden;
+        background-color: black;
+    }
+
+    img {
+        max-width: 100%;
+        max-height: 100%;
+        object-fit: contain;
+    }
+
+    /* Banner styles */
+    #banner {
+        position: fixed;
+        top: 0;
+        left: 50%;
+        transform: translateX(-50%);
+        background: rgba(0, 0, 0, 0.8);
+        color: white;
+        padding: 10px 20px;
+        font-size: 16px;
+        border-radius: 5px;
+        z-index: 1000;
+        opacity: 1;
+        transition: opacity 1s ease-in-out;
+    }
+</style>
+<body>
+    <div id="banner">Press CTRL + W to return to OliveTin</div>
+    <img src="file:///home/pi/loadgraph.png" alt="Load Graph">
+    <script>
+        setTimeout(() => {
+            document.getElementById("banner").style.opacity = "0";
+        }, 5000);
+    </script>
+</body>
+</html>
