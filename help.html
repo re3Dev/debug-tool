@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Help Page</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 40px;
+            padding: 20px;
+            background-color: #f4f4f4;
+        }
+        h1 {
+            text-align: center;
+        }
+        .action {
+            background: white;
+            padding: 15px;
+            margin-bottom: 10px;
+            border-radius: 5px;
+            box-shadow: 0 0 5px rgba(0,0,0,0.1);
+        }
+        .title {
+            font-size: 18px;
+            font-weight: bold;
+        }
+        .description {
+            margin-top: 5px;
+        }
+        /* Banner styles */
+        #banner {
+            position: fixed;
+            top: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(0, 0, 0, 0.8);
+            color: white;
+            padding: 10px 20px;
+            font-size: 16px;
+            border-radius: 5px;
+            z-index: 1000;
+            opacity: 1;
+            transition: opacity 1s ease-in-out;
+        }
+    </style>
+</head>
+<body>
+    <div id="banner">Press CTRL + W to return to OliveTin</div>
+    
+    <h1>Re:3D Help Page</h1>
+
+    <div class="action">
+        <div class="title">Ping the Internet</div>
+        <div class="description">Runs a simple network test, used for checking internet connectivity.</div>
+    </div>
+
+    <div class="action">
+        <div class="title">Grab Logs</div>
+        <div class="description">Executes a script to retrieve a Klippy log from the printer.</div>
+    </div>
+
+    <div class="action">
+        <div class="title">Interface Pop-up</div>
+        <div class="description">Opens the browser in to display the printer's mainsail interface.</div>
+    </div>
+
+    <div class="action">
+        <div class="title">Keyboard Connect</div>
+        <div class="description">Runs a script to reconnect the Bluetooth keyboard.</div>
+    </div>
+
+    <div class="action">
+        <div class="title">Generate Load Graph</div>
+        <div class="description">Runs a script to generate a load graph from a selected log file and then displays it.</div>
+    </div>
+
+    <div class="action">
+        <div class="title">Display Last Loadgraph</div>
+        <div class="description">Opens the browser and displays the latest generated load graph.</div>
+    </div>
+
+    <div class="action">
+        <div class="title">Display Errors in Log</div>
+        <div class="description">Parses the log file and finds specified errors with line numbers.</div>
+    </div>
+
+    <script>
+        setTimeout(() => {
+            document.getElementById("banner").style.opacity = "0";
+        }, 5000);
+    </script>
+</body>
+</html>
