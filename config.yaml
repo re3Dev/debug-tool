@@ -81,6 +81,18 @@ actions:
     icon: '&#128202'
     popupOnStart: default
 
+  # Displays what and where errors were found in a file
+  - title: Display Errors in Log
+    shell: python /home/pi/saved_scripts/parse_log.py /home/pi/saved_logs/{{ Log }}
+    icon: '&#9888'
+    timeout: 20
+    popupOnStart: execution-dialog-stdout-only
+    arguments:
+      - name: Log
+        entity: log
+        choices:
+          - value: '{{ log.Name }}'
+            title: '{{ log.Name }}'
 
   # `arguments` - this presents a popup dialog and asks for argument values.
   #
