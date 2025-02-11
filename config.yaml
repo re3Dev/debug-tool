@@ -65,7 +65,7 @@ actions:
   - title: Generate Load Graph
     icon: clock
     timeout: 20
-    shell: "/home/pi/klipper/scripts/graphstats.py /home/pi/saved_logs/{{ logToView }} -o /home/pi/loadgraph.png"
+    shell: /home/pi/klipper/scripts/graphstats.py /home/pi/saved_logs/{{ logToView }} {{ type }} -o /home/pi/graph.png
     popupOnStart: default
     trigger: Display Last Loadgraph
     arguments:
@@ -74,10 +74,21 @@ actions:
         choices:
           - value: '{{ log.Name }}'
             title: '{{ log.Name }}'
+      - name: type
+        choices:
+          - title: mcu bandwidth & load utilization
+            value: ''
+          - title: mcu frequency
+            value: '-f'
+          - title: system load
+            value: '-s'
+          - title: heater temperature
+            value: '-t HEATER'
+            
 
 
   - title: Display Last Loadgraph
-    shell: su - pi -c "chromium-browser --no-sandbox --kiosk --zoom=100 file:///home/pi/loadgraph.html"
+    shell: su - pi -c "chromium-browser --no-sandbox --kiosk --zoom=100 file:///home/pi/graph_display.html"
     icon: '&#128202'
     popupOnStart: default
 
