@@ -65,16 +65,16 @@ actions:
   - title: Generate Load Graph
     icon: clock
     timeout: 20
-    shell: /home/pi/klipper/scripts/graphstats.py /home/pi/saved_logs/{{ logToView }} {{ type }} -o /home/pi/graph.png
+    shell: /home/pi/klipper/scripts/graphstats.py /home/pi/saved_logs/{{ Log }} {{ Type }} -o /home/pi/graph.png
     popupOnStart: default
     trigger: Display Last Loadgraph
     arguments:
-      - name: logToView
+      - name: Log
         entity: log
         choices:
           - value: '{{ log.Name }}'
             title: '{{ log.Name }}'
-      - name: type
+      - name: Type
         choices:
           - title: mcu bandwidth & load utilization
             value: ''
@@ -96,6 +96,19 @@ actions:
   - title: Display Errors in Log
     shell: python /home/pi/saved_scripts/parse_log.py /home/pi/saved_logs/{{ Log }}
     icon: '&#9888'
+    timeout: 20
+    popupOnStart: execution-dialog-stdout-only
+    arguments:
+      - name: Log
+        entity: log
+        choices:
+          - value: '{{ log.Name }}'
+            title: '{{ log.Name }}'
+  
+
+  - title: Display Extruder Temps
+    shell: python /home/pi/saved_scripts/parse_extruders.py /home/pi/saved_logs/{{ Log }}
+    icon: '&#127777'
     timeout: 20
     popupOnStart: execution-dialog-stdout-only
     arguments:
