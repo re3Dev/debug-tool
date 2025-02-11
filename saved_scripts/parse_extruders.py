@@ -44,7 +44,7 @@ def parse_klippy_log(file_path):
             if heater_bed_match:
                 heater_bed_temp = float(heater_bed_match.group(1))
 
-    result = f"{BOLD}{CYAN}Extracted Temperatures:{RESET}\n"
+    result = f"{BOLD}{CYAN}\nLast known temperatures...{RESET}\n"
     
     for extruder_index, temp in extruder_temps.items():
         result += f"  {GREEN}Extruder {extruder_index} Temp:{RESET} {BOLD}{temp}°C{RESET}\n"
