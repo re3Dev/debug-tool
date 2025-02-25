@@ -17,7 +17,6 @@ themeName: dark-mode
 pageTitle: re:3D
 sectionNavigationStyle: topbar
 
-
 # Actions are commands that are executed by OliveTin, and normally show up as
 # buttons on the WebUI.
 #
@@ -27,23 +26,22 @@ actions:
   # button to indicate status.
   #
   # If you are running OliveTin in a container remember to pass through the
-  # docker socket! https://docs.olivetin.app/action-container-control.html   
+  # docker socket! https://docs.olivetin.app/action-container-control.html
   - title: Ping the Internet
     shell: ping -c 3 1.1.1.1
-    icon: '&#128279'
+    icon: "&#128279"
     popupOnStart: execution-dialog-stdout-only
 
   # MY COMMAND (Grabs the klippy log from the printer)
   - title: Grab Logs
     shell: /home/pi/saved_scripts/save_log.sh
-    icon: '&#128240'
+    icon: "&#128240"
     popupOnStart: default
-
 
   # This uses `popupOnStart: execution-dialog-stdout-only` to simply show just
   # the command output.
   - title: Interface Pop-up
-    icon: '&#127760'
+    icon: "&#127760"
     shell: su - pi -c "chromium-browser --no-sandbox --kiosk --zoom=100 file:///home/pi/interface.html"
     popupOnStart: default
 
@@ -51,7 +49,7 @@ actions:
   # information about the command that was run.
   - title: Keyboard Connect
     shell: /home/pi/saved_scripts/btconnect.sh
-    icon: '&#9000'
+    icon: "&#9000"
     timeout: 15
     popupOnStart: default
 
@@ -59,7 +57,7 @@ actions:
   # links to the logs.
   - title: Help
     shell: su - pi -c "chromium-browser --no-sandbox --kiosk --zoom=100 file:///home/pi/help.html"
-    icon: '&#63'
+    icon: "&#63"
     popupOnStart: default
 
   # You are not limited to operating system commands, and of course you can run
@@ -76,52 +74,48 @@ actions:
       - name: Log
         entity: log
         choices:
-          - value: '{{ log.Name }}'
-            title: '{{ log.Name }}'
+          - value: "{{ log.Name }}"
+            title: "{{ log.Name }}"
       - name: Type
         choices:
           - title: mcu bandwidth & load utilization
-            value: ''
+            value: ""
           - title: mcu frequency
-            value: '-f'
+            value: "-f"
           - title: system load
-            value: '-s'
+            value: "-s"
           - title: heater temperature
-            value: '-t HEATER'
-            
-
+            value: "-t HEATER"
 
   - title: Display Last Loadgraph
     shell: su - pi -c "chromium-browser --no-sandbox --kiosk --zoom=100 file:///home/pi/graph_display.html"
-    icon: '&#128202'
+    icon: "&#128202"
     popupOnStart: default
 
   # Displays what and where errors were found in a file
   - title: Display Errors in Log
     shell: python /home/pi/saved_scripts/parse_log.py /home/pi/saved_logs/{{ Log }}
-    icon: '&#9888'
+    icon: "&#9888"
     timeout: 20
     popupOnStart: execution-dialog-stdout-only
     arguments:
       - name: Log
         entity: log
         choices:
-          - value: '{{ log.Name }}'
-            title: '{{ log.Name }}'
-  
+          - value: "{{ log.Name }}"
+            title: "{{ log.Name }}"
 
   - title: Display Extruder Temps
     shell: python /home/pi/saved_scripts/parse_extruders.py /home/pi/saved_logs/{{ Log }}
-    icon: '&#127777'
+    icon: "&#127777"
     timeout: 20
     popupOnStart: execution-dialog-stdout-only
     arguments:
       - name: Log
         entity: log
         choices:
-          - value: '{{ log.Name }}'
-            title: '{{ log.Name }}'
-
+          - value: "{{ log.Name }}"
+            title: "{{ log.Name }}"
 
   # The following actions are "dummy" actions, used in a Dashboard. As long as
   # you have these referenced in a dashboard, they will not show up in the
@@ -227,7 +221,7 @@ dashboards:
       # actions grouped together without a folder.
       - type: fieldset
         entity: server
-        title: 'Server: {{ server.hostname }}'
+        title: "Server: {{ server.hostname }}"
         contents:
           # By default OliveTin will look for an action with a matching title
           # and put it on the dashboard.
@@ -240,13 +234,13 @@ dashboards:
               IP Address: <strong>{{ server.ip }}</strong>
 
           # These are the actions (defined above) that we want on the dashboard.
-          - title: '{{ server.name }} Wake on Lan'
-          - title: '{{ server.name }} Power Off'
+          - title: "{{ server.name }} Wake on Lan"
+          - title: "{{ server.name }} Power Off"
 
   # This is the second dashboard.
   - title: My Containers
     contents:
-      - title: 'Container {{ container.Names }} ({{ container.Image }})'
+      - title: "Container {{ container.Names }} ({{ container.Image }})"
         entity: container
         type: fieldset
         contents:
@@ -254,5 +248,5 @@ dashboards:
             title: |
               {{ container.RunningFor }} <br /><br /><strong>{{ container.State }}</strong>
 
-          - title: 'Start {{ container.Names }}'
-          - title: 'Stop {{ container.Names }}'
+          - title: "Start {{ container.Names }}"
+          - title: "Stop {{ container.Names }}"
