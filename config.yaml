@@ -29,19 +29,19 @@ actions:
   # docker socket! https://docs.olivetin.app/action-container-control.html
   - title: Ping the Internet
     shell: ping -c 3 1.1.1.1
-    icon: "&#128279"
+    icon: <iconify-icon icon="material-symbols:wifi" width="48" height="48"></iconify-icon>
     popupOnStart: execution-dialog-stdout-only
 
   # MY COMMAND (Grabs the klippy log from the printer)
   - title: Grab Logs
     shell: /home/pi/saved_scripts/save_log.sh
-    icon: "&#128240"
+    icon: <iconify-icon icon="icon-park-outline:log" width="48" height="48"></iconify-icon>
     popupOnStart: default
 
   # This uses `popupOnStart: execution-dialog-stdout-only` to simply show just
   # the command output.
   - title: Interface Pop-up
-    icon: "&#127760"
+    icon: <iconify-icon icon="uil:rss-interface" width="48" height="48"></iconify-icon>
     shell: su - pi -c "chromium-browser --no-sandbox --kiosk --zoom=100 file:///home/pi/interface.html"
     popupOnStart: default
 
@@ -49,7 +49,7 @@ actions:
   # information about the command that was run.
   - title: Keyboard Connect
     shell: /home/pi/saved_scripts/btconnect.sh
-    icon: "&#9000"
+    icon: <iconify-icon icon="material-symbols:bluetooth" width="48" height="48"></iconify-icon>
     timeout: 15
     popupOnStart: default
 
@@ -57,7 +57,7 @@ actions:
   # links to the logs.
   - title: Help
     shell: su - pi -c "chromium-browser --no-sandbox --kiosk --zoom=100 file:///home/pi/help.html"
-    icon: "&#63"
+    icon: <iconify-icon icon="material-symbols:help" width="48" height="48"></iconify-icon>
     popupOnStart: default
 
   # You are not limited to operating system commands, and of course you can run
@@ -65,7 +65,7 @@ actions:
   # times in parallel. There is also a timeout that will kill the command if it
   # runs for too long.
   - title: Generate Load Graph
-    icon: clock
+    icon: <iconify-icon icon="lets-icons:img-load-box-fill" width="48" height="48"></iconify-icon>
     timeout: 20
     shell: /home/pi/klipper/scripts/graphstats.py /home/pi/saved_logs/{{ Log }} {{ Type }} -o /home/pi/graph.png
     popupOnStart: default
@@ -89,13 +89,13 @@ actions:
 
   - title: Display Last Loadgraph
     shell: su - pi -c "chromium-browser --no-sandbox --kiosk --zoom=100 file:///home/pi/graph_display.html"
-    icon: "&#128202"
+    icon: <iconify-icon icon="mdi:graph-line" width="48" height="48"></iconify-icon>
     popupOnStart: default
 
   # Displays what and where errors were found in a file
   - title: Display Errors in Log
     shell: python /home/pi/saved_scripts/parse_log.py /home/pi/saved_logs/{{ Log }}
-    icon: "&#9888"
+    icon: <iconify-icon icon="bxs:error" width="48" height="48"></iconify-icon>
     timeout: 20
     popupOnStart: execution-dialog-stdout-only
     arguments:
@@ -107,7 +107,7 @@ actions:
 
   - title: Display Extruder Temps
     shell: python /home/pi/saved_scripts/parse_extruders.py /home/pi/saved_logs/{{ Log }}
-    icon: "&#127777"
+    icon: <iconify-icon icon="fluent:temperature-24-filled" width="48" height="48"></iconify-icon>
     timeout: 20
     popupOnStart: execution-dialog-stdout-only
     arguments:
