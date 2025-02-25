@@ -1,24 +1,44 @@
+body, main, nav, footer, section {
+  animation: fadeInPage 0.3s ease-in-out;
+}
+
+/* Fade-in animation */
+@keyframes fadeInPage {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+#page-title {
+  padding-left: 60px; /* Space between the icon and text */
+  background-image: url("/custom-webui/themes/dark-mode/logo.png");
+  background-size: contain; /* Adjust the icon size */
+  background-repeat: no-repeat;
+  background-position: 20px center; /* Moves the icon inside the padding */
+  display: flex; /* Use flexbox for better alignment */
+  align-items: center; /* Vertically aligns text and icon */
+  animation: none;
+  opacity: 1;
+}
+
 #page-title > a {
   font-size: 1.5rem;
-  padding-left: 70px; /* Extra space between icon and text */
-  background-image: url("/custom-webui/themes/dark-mode/logo.png");
-  background-size: contain; /* Ensures it scales properly */
-  background-repeat: no-repeat;
-  background-position: 30px center; /* Moves image to the right */
-  display: inline-block;
-  position: relative;
-  margin-left: -20px; /* Moves the icon slightly off-screen */
+  margin-left: 10px;
 }
 
 svg {
   display: none;
 }
 
+
 :root {
   --color-primary: #11111b;
   --color-accent: #FFD400; /*#89b4fa*/
   --color-background: #1e1e2e;
-  --color-font: #cdd6f4;
+  --color-font: #E6E6E6;
   --color-red: #f38ba8;
   --color-green: #a6e3a1;
   --color-peach: #fab387;
@@ -36,6 +56,13 @@ main {
 body{
 	background-color: var(--color-background);
 	color: var(--color-font);
+  opacity: 0;
+  animation: fadeIn 0.5s ease-in-out forwards;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
 }
 
 header{
@@ -127,6 +154,8 @@ action-button button:focus {
   outline: none;
   box-shadow: 0px 0px 15px var(--color-accent);
 }
+
+
 
 div.display {
 	background-color: var(--color-mantle);
@@ -225,6 +254,7 @@ form div.wrapper{
 
 #argument-popup{
   background-color: var(--color-primary);
+  border-color: var(--color-accent);
   color: var(--color-surface-2);
   border-radius: 25px;
 }
@@ -240,9 +270,9 @@ pre#execution-dialog-stdout{
 }
 
 select {
-	background-color: var(--color-accent);
+	background-color: var(--color-background);
 	border: none;
-	color: var(--color-background);
+	color: var(--color-font);
 }
 
 /* UI BUTTONS */
