@@ -1,3 +1,4 @@
+/* Prevents unwanted scrollbar persistence when switching tabs */
 main {
   overflow-y: auto;
   scrollbar-gutter: auto;
@@ -24,11 +25,11 @@ section {
 #page-title {
   padding-left: 60px; /* Space between the icon and text */
   background-image: url("/custom-webui/themes/dark-mode/logo.png");
-  background-size: contain; /* Adjust the icon size */
+  background-size: contain; /* Icon size */
   background-repeat: no-repeat;
-  background-position: 20px center; /* Moves the icon inside the padding */
-  display: flex; /* Use flexbox for better alignment */
-  align-items: center; /* Vertically aligns text and icon */
+  background-position: 20px center;
+  display: flex;
+  align-items: center;
   animation: none;
   opacity: 1;
 }
@@ -153,7 +154,6 @@ action-button::before {
   z-index: 1; /* Behind the button */
 }
 
-/* Hover Effect */
 action-button button:hover {
   background-color: var(--color-accent);
   color: var(--color-background);
@@ -161,7 +161,6 @@ action-button button:hover {
   box-shadow: 0px 6px 10px rgba(0, 0, 0, 0.3);
 }
 
-/* Focus Effect */
 action-button button:focus {
   outline: none;
   box-shadow: 0px 0px 15px var(--color-accent);
@@ -187,7 +186,7 @@ span.icon {
 /* NAVBAR */
 
 nav.topbar a {
-  color: var(--color-font); /* Default: Yellow text */
+  color: var(--color-font);
   text-decoration: none;
   font-size: 1rem;
   font-weight: bold;
@@ -197,9 +196,9 @@ nav.topbar a {
 
 nav.topbar a:hover,
 nav.topbar a:focus {
-  background-color: var(--color-accent); /* Yellow background */
-  color: var(--color-background); /* Dark text */
-  border-radius: 5px; /* Optional: Soften the edges */
+  background-color: var(--color-accent);
+  color: var(--color-background);
+  border-radius: 5px;
   outline: none;
 }
 nav.topbar a.selected {
