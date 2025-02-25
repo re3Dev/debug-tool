@@ -11,8 +11,12 @@ logLevel: "INFO"
 # Checking for updates https://docs.olivetin.app/update-checks.html
 checkForUpdates: false
 
+showFooter: false
+
 themeName: dark-mode
 pageTitle: re:3D
+sectionNavigationStyle: topbar
+
 
 # Actions are commands that are executed by OliveTin, and normally show up as
 # buttons on the WebUI.
@@ -23,23 +27,23 @@ actions:
   # button to indicate status.
   #
   # If you are running OliveTin in a container remember to pass through the
-  # docker socket! https://docs.olivetin.app/action-container-control.html
+  # docker socket! https://docs.olivetin.app/action-container-control.html   
   - title: Ping the Internet
     shell: ping -c 3 1.1.1.1
-    icon: '&#80'
+    icon: '&#128279'
     popupOnStart: execution-dialog-stdout-only
 
   # MY COMMAND (Grabs the klippy log from the printer)
   - title: Grab Logs
     shell: /home/pi/saved_scripts/save_log.sh
-    icon: '&#76'
+    icon: '&#128240'
     popupOnStart: default
 
 
   # This uses `popupOnStart: execution-dialog-stdout-only` to simply show just
   # the command output.
   - title: Interface Pop-up
-    icon: '&#73'
+    icon: '&#127760'
     shell: su - pi -c "chromium-browser --no-sandbox --kiosk --zoom=100 file:///home/pi/interface.html"
     popupOnStart: default
 
@@ -118,116 +122,6 @@ actions:
           - value: '{{ log.Name }}'
             title: '{{ log.Name }}'
 
-  # `arguments` - this presents a popup dialog and asks for argument values.
-  #
-  # Docs: https://docs.olivetin.app/action-ping.html
-  - title: Ping host
-    id: ping_host
-    shell: ping {{ host }} -c {{ count }}
-    icon: ping
-    timeout: 100
-    popupOnStart: execution-dialog-stdout-only
-    arguments:
-      - name: host
-        title: Host
-        type: ascii_identifier
-        default: example.com
-        description: The host that you want to ping
-
-      - name: count
-        title: Count
-        type: int
-        default: 3
-        description: How many times to do you want to ping?
-
-  # OliveTin can control containers - docker is just a command line app.
-  #
-  # However, if you are running in a container you will need to do some setup,
-  # see the docs below.
-  #
-  # Docs: https://docs.olivetin.app/action-container-control.html
-  - title: Restart Docker Container
-    icon: restart
-    shell: docker restart {{ container }}
-    arguments:
-      - name: container
-        title: Container name
-        choices:
-          - value: plex
-          - value: traefik
-          - value: grafana
-
-  # There is a special `confirmation` argument to help against accidental clicks
-  # on "dangerous" actions.
-  #
-  # Docs: https://docs.olivetin.app/confirmation.html
-  - title: Delete old backups
-    icon: ashtonished
-    shell: rm -rf /opt/oldBackups/
-    arguments:
-      - type: confirmation
-        title: Are you sure?!
-
-  # This is an action that runs a script included with OliveTin, that will
-  # download themes. You will still need to set theme "themeName" in your config.
-  #
-  # Docs: https://docs.olivetin.app/themes.html
-  - title: Get OliveTin Theme
-    shell: olivetin-get-theme {{ themeGitRepo }} {{ themeFolderName }}
-    icon: theme
-    arguments:
-      - name: themeGitRepo
-        title: Theme's Git Repository
-        description: Find new themes at https://olivetin.app/themes
-        type: url
-
-      - name: themeFolderName
-        title: Theme's Folder Name
-        type: ascii_identifier
-
-  # Sometimes you want to run actions on other servers - don't overcomplicate
-  # it, just use SSH! OliveTin includes a helper to make this easier, which is
-  # entirely optional. You can also setup SSH manually.
-  #
-  # Docs: https://docs.olivetin.app/action-ssh-easy.html
-  # Docs: https://docs.olivetin.app/action-ssh.html
-  - title: "Setup easy SSH"
-    icon: ssh
-    shell: olivetin-setup-easy-ssh
-    popupOnStart: execution-dialog
-
-  # Here's how to use SSH with the "easy" config, to restart a service on
-  # another server.
-  #
-  # Docs: https://docs.olivetin.app/action-ssh-easy.html
-  # Docs: https://docs.olivetin.app/action-service.html
-  - title: Restart httpd on server1
-    id: restart_httpd
-    icon: restart
-    timeout: 1
-    shell: ssh -F /config/ssh/easy.cfg root@server1 'service httpd restart'
-
-  # Lots of people use OliveTin to build web interfaces for their electronics
-  # projects. It's best to install OliveTin as a native package (eg, .deb), and
-  # then you can use either a python script or the `gpio` command.
-  - title: Toggle GPIO light
-    shell: gpioset gpiochip1 9=1
-    icon: light
-
-  # There are several built-in shortcuts for the `icon` option, but you
-  # can also just specify any HTML, this includes any unicode character,
-  # or a <img = "..." /> link to a custom icon.
-  #
-  # Docs: https://docs.olivetin.app/icons.html
-  #
-  # Lots of people use OliveTin to easily execute ansible-playbooks. You
-  # probably want a much longer timeout as well (so that ansible completes).
-  #
-  # Docs: https://docs.olivetin.app/ansible-playbook.html
-  - title: "Run Automation Playbook"
-    icon: '&#129302;'
-    shell: ansible-playbook -i /etc/hosts /root/myRepo/myPlaybook.yaml
-    timeout: 120
 
   # The following actions are "dummy" actions, used in a Dashboard. As long as
   # you have these referenced in a dashboard, they will not show up in the
