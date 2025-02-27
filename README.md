@@ -20,3 +20,5 @@
 - Used a chromium tab to display the load graph, and invoked that action after generating the load graph
 - Customized the theme.css to be more appealing on the deck (increasing font, spacing, etc.)
 - Added a help page to describe all the actions and their functions.
+- Customized UI to fit re:3D theme
+- Added printer data display and real time temperatures from printer
