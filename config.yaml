@@ -120,21 +120,7 @@ actions:
   # The following actions are "dummy" actions, used in a Dashboard. As long as
   # you have these referenced in a dashboard, they will not show up in the
   # `actions` view.
-  - title: Ping hypervisor1
-    shell: echo "hypervisor1 online"
-
-  - title: Ping hypervisor2
-    shell: echo "hypervisor2 online"
-
-  - title: "{{ server.name }} Wake on Lan"
-    shell: echo "Sending Wake on LAN to {{ server.hostname }}"
-    entity: server
-
-  - title: "{{ server.name }} Power Off"
-    shell: "echo 'Power Off Server: {{ server.hostname }}'"
-    entity: server
-
-  - title: Ping All Servers
+  - title: Read Temps
     shell: "echo 'Ping all servers'"
     icon: ping
 
@@ -193,6 +179,12 @@ entities:
 
   - file: /etc/OliveTin/entities/logs.json
     name: log
+  
+  - file: /etc/OliveTin/entities/system_data.json
+    name: system
+  
+  - file: /etc/OliveTin/entities/printer_temps.json
+    name: temps
 
 # Dashboards are a way of taking actions from the default "actions" view, and
 # organizing them into groups - either into folders, or fieldsets.
@@ -201,41 +193,25 @@ entities:
 # a dashboard.
 dashboards:
   # Top level items are dashboards.
-  - title: My Servers
+  - title: My Printer
     contents:
-      - title: All Servers
+      - title: "Printer Data"
+        entity: system
         type: fieldset
         contents:
-          # The contents of a dashboard will try to look for an action with a
-          # matching title IF the `contents: ` property is empty.
-          - title: Ping All Servers
-
-          # If you create an item with some "contents:", OliveTin will show that as
-          # directory.
-          - title: Hypervisors
-            contents:
-              - title: Ping hypervisor1
-              - title: Ping hypervisor2
-
-      # If you specify `type: fieldset` and some `contents`, it will show your
-      # actions grouped together without a folder.
-      - type: fieldset
-        entity: server
-        title: "Server: {{ server.hostname }}"
-        contents:
-          # By default OliveTin will look for an action with a matching title
-          # and put it on the dashboard.
-          #
-          # Fieldsets  also support `type: display`, which can display arbitary
-          # text. This is useful for displaying things like a container's state.
           - type: display
             title: |
-              Hostname: <strong>{{ server.name }}</strong>
-              IP Address: <strong>{{ server.ip }}</strong>
-
-          # These are the actions (defined above) that we want on the dashboard.
-          - title: "{{ server.name }} Wake on Lan"
-          - title: "{{ server.name }} Power Off"
+              <br />{{ system.system.mac_address }}<br /><strong>{{ system.printer.hostname }}</strong>
+          - title: Read Temps
+      
+      - title: "{{ temps.name }}"
+        entity: temps
+        type: fieldset
+        contents:
+          - type: display
+            title: |
+                Current: <strong>{{ temps.current }}</strong>
+                Target: <strong>{{ temps.target }}</strong>
 
   # This is the second dashboard.
   - title: My Containers
