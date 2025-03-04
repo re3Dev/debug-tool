@@ -58,7 +58,7 @@ def parse_klippy_log(file_path):
 
 def main():
     if len(sys.argv) != 2:
-        print(f"{RED}Usage: python script.py <log_file>{RESET}")
+        print(f"{RED}Usage: python parse_extruders.py <log_file>{RESET}")
         sys.exit(1)
 
     file = sys.argv[1]
