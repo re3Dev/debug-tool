@@ -120,9 +120,26 @@ actions:
   # The following actions are "dummy" actions, used in a Dashboard. As long as
   # you have these referenced in a dashboard, they will not show up in the
   # `actions` view.
-  - title: Read Temps
-    shell: "echo 'Ping all servers'"
-    icon: ping
+  - title: Set {{ temps.name }} Temp
+    shell: python /home/pi/saved_scripts/set_temp.py {{ temps.name }} {{ Temperature }}
+    entity: temps
+    icon: <iconify-icon icon="carbon:temperature-inversion" width="48" height="48"></iconify-icon>
+    popupOnStart: execution-dialog-stdout-only
+    arguments:
+      - name: Temperature
+        type: int
+  
+  - title: Cooldown {{ temps.name }}
+    shell: python /home/pi/saved_scripts/set_temp.py {{ temps.name }} 0
+    popupOnStart: execution-dialog-stdout-only
+    entity: temps
+    icon: <iconify-icon icon="mdi:snowflake" width="48" height="48"></iconify-icon>
+  
+  - title: Refresh Data
+    shell: python /home/pi/saved_scripts/printer_data.py
+    icon: <iconify-icon icon="solar:refresh-bold" width="48" height="48"></iconify-icon>
+    
+
 
   - title: Start {{ container.Names }}
     icon: box
@@ -193,7 +210,7 @@ entities:
 # a dashboard.
 dashboards:
   # Top level items are dashboards.
-  - title: My Printer
+  - title: Heater Control
     contents:
       - title: "Printer Data"
         entity: system
@@ -201,8 +218,8 @@ dashboards:
         contents:
           - type: display
             title: |
-              <br />{{ system.system.mac_address }}<br /><strong>{{ system.printer.hostname }}</strong>
-          - title: Read Temps
+             <strong>{{ system.printer.hostname }}</strong> MAC: {{ system.system.mac_address }}
+          - title: Refresh Data
       
       - title: "{{ temps.name }}"
         entity: temps
@@ -212,6 +229,9 @@ dashboards:
             title: |
                 Current: <strong>{{ temps.current }}</strong>
                 Target: <strong>{{ temps.target }}</strong>
+          
+          - title: Set {{ temps.name }} Temp
+          - title: Cooldown {{ temps.name }}
 
   # This is the second dashboard.
   - title: My Containers
