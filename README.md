@@ -1,11 +1,31 @@
-# debug-tool
+# re:Bugger
 
-# Project Overview
+## Table of Contents
+- [Overview](#overview)
+- [Features](#overview)
+- [Installation](#installation)
+- [Usage](#usage)
+- [Technologies Used](#technologies-used)
+- [Roadmap](#roadmap)
+
+## Overview
 (Insert Project Overview Here)
 
-# Features
+## Features
+(Insert Features Here)
 
-# Timeline
+## Installation
+(Insert Installation Here)
+
+## Usage
+(Insert Usuage Usage Here)
+
+## Technologies Used
+- OliveTin
+- FullPageOS
+- Moonraker API
+
+## Roadmap
 
 - Made the dark mode theme and editted the Icons
 - Set up the dhcp server on the master pi
@@ -22,3 +42,8 @@
 - Added a help page to describe all the actions and their functions.
 - Customized UI to fit re:3D theme
 - Added printer data display and real time temperatures from printer
+
+
+
+
+
