@@ -58,7 +58,7 @@ def sync_pi_from_repo():
                 destination = PATH_TO_BASE
 
             if not destination:
-                print(f"⚠️ Skipping {file} (no predefined destination)")
+                print(f"Skipping {file} (no predefined destination)")
                 continue
 
             # Ensure the destination folder exists
@@ -67,7 +67,7 @@ def sync_pi_from_repo():
             # # Copy file
             dest_file_path = os.path.join(destination, file)
             copy2(file_path, dest_file_path)
-            print(f"✅ {file} → {dest_file_path}")
+            print(f"{file} → {dest_file_path}")
 
 
 def sync_repo_from_pi():
@@ -117,9 +117,9 @@ def sync_repo_from_pi():
         commit_message = input("Enter the commit message: ")
         repo.index.commit(commit_message)  # Commit changes
         repo.remotes.origin.push()  # Push to remote
-        print("✅ Repo updated and pushed to remote!")
+        print("Repo updated and pushed to remote!")
     else:
-        print("✅ No changes detected, skipping repo update.")
+        print("No changes detected, skipping repo update.")
 
 
 def main():
@@ -130,7 +130,7 @@ def main():
     elif choice == "0":
         sync_repo_from_pi()  # Updates the remote repo from the pi
     else:
-        print("❌ Invalid choice. Please enter 1 or 0.")
+        print("Invalid choice. Please enter 1 or 0.")
 
 if __name__ == '__main__':
     main()
