@@ -123,7 +123,7 @@ def sync_repo_from_pi():
 
 
 def main():
-    choice = input("Enter 1 to update Pi's files from remote repo, or 0 to update remote repo from the Pi: ").strip()
+    choice = input("Enter 1 to update Pi's files from remote repo (Pull), or 0 to update remote repo from the Pi (Push): ").strip()
 
     if choice == "1":
         sync_pi_from_repo()  # Update pi files from the repo
