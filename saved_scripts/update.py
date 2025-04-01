@@ -11,6 +11,7 @@
 import os
 import git
 from shutil import copy2
+import filecmp
 
 ##NOTE: Make sure to clone the repo first manually, update the repo's path (if needed) ##
 
@@ -24,7 +25,7 @@ PATH_TO_THEME = "/etc/OliveTin/custom-webui/themes/dark-mode"
 # Define mappings for where to sync files
 FOLDER_MAPPINGS = {
     "/home/pi/debug-tool/saved_scripts": PATH_TO_SCRIPTS,
-    "/home/pi/debug-tool/entities": PATH_TO_ENTITIES,
+    "/home/pi/debug-tool/entities": PATH_TO_ENTITIES
 }
 
 FILE_MAPPINGS = {
@@ -72,6 +73,8 @@ def sync_pi_from_repo():
 
 def sync_repo_from_pi():
     changes_detected = False
+
+    # Sync folders
     for file, system_path in FOLDER_MAPPINGS.items():
         source_dir = system_path
         repo_path = os.path.join(REPO_PATH, file)
@@ -83,7 +86,7 @@ def sync_repo_from_pi():
             for f in filenames
         ]
 
-        # print(f"Files in {source_dir}: {source_paths}")
+        print(f"Files in {source_dir}: {source_paths}")
 
         for source_path in source_paths:
             # Ensure the destination directory exists
@@ -95,7 +98,7 @@ def sync_repo_from_pi():
             copy2(source_path, repo_path)
             changes_detected = True
                 
-
+    # Sync individual files
     for file, system_path in FILE_MAPPINGS.items():
 
         source_path = os.path.join(system_path, file)
@@ -108,6 +111,22 @@ def sync_repo_from_pi():
         print(f"Updating repo with {source_path}...")
         copy2(source_path, repo_path)
         changes_detected = True
+
+    # Detect and copy .html files from /home/pi
+    html_files = [
+        f for f in os.listdir(PATH_TO_BASE)
+        if f.endswith(".html") and os.path.isfile(os.path.join(PATH_TO_BASE, f))
+    ]
+
+    for html_file in html_files:
+        source_path = os.path.join(PATH_TO_BASE, html_file)
+        repo_dest = os.path.join(REPO_PATH, html_file)
+
+        # Only copy if the file is new or has changed
+        if not os.path.exists(repo_dest) or not filecmp.cmp(source_path, repo_dest, shallow=False):
+            copy2(source_path, repo_dest)
+            print(f"HTML file updated: {html_file}")
+            changes_detected = True
 
     print(changes_detected)
 
