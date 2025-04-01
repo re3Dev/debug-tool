@@ -1,7 +1,7 @@
 import requests
 import sys
 
-PRINTER_IP = "192.168.1.75"
+PRINTER_IP = "192.168.4.2"
 
 def set_temp(temp, name, index):
     if name == 'Heater':  # Bed

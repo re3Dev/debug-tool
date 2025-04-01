@@ -1,7 +1,7 @@
 import requests
 import sys
 
-PRINTER_IP = "IP HERE"
+PRINTER_IP = "192.168.4.2"
 
 def send_gcode(cmd_line):
     # Ensure the command is a string
