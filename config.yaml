@@ -50,10 +50,7 @@ actions:
 
   # This uses `popupOnStart: execution-button` to display a mini button that
   # links to the logs.
-  - title: Help
-    shell: su - pi -c "chromium-browser --no-sandbox --kiosk --zoom=100 file:///home/pi/help.html"
-    icon: <iconify-icon icon="material-symbols:help" width="48" height="48"></iconify-icon>
-    popupOnStart: default
+  
 
   # You are not limited to operating system commands, and of course you can run
   # your own scripts. Here `maxConcurrent` stops the script running multiple
@@ -124,6 +121,12 @@ actions:
     icon: <iconify-icon icon="mdi:sd-card" width="48" height="48"></iconify-icon>
     popupOnStart: execution-dialog-stdout-only
     timeout: 1000
+  
+  - title: Export Logs
+    shell: "/home/pi/saved_scripts/copy_to_usb.sh"
+    icon: <iconify-icon icon="mdi:file-export" width="48" height="48"></iconify-icon>
+    popupOnStart: execution-dialog-stdout-only
+    timeout: 15
 
   # The following actions are "dummy" actions, used in a Dashboard. As long as
   # you have these referenced in a dashboard, they will not show up in the
@@ -144,20 +147,12 @@ actions:
   - title: Refresh Data
     shell: python /home/pi/saved_scripts/printer_data.py
     icon: <iconify-icon icon="solar:refresh-bold" width="48" height="48"></iconify-icon>
-    
-
-
-  - title: Start {{ container.Names }}
-    icon: box
-    shell: docker start {{ container.Names }}
-    entity: container
-    trigger: Update container entity file
-
-  - title: Stop {{ container.Names }}
-    icon: box
-    shell: docker stop {{ container.Names }}
-    entity: container
-    trigger: Update container entity file
+  
+  - title: Help
+    shell: su - pi -c "chromium-browser --no-sandbox --kiosk --zoom=100 file:///home/pi/help.html"
+    icon: <iconify-icon icon="material-symbols:help" width="48" height="48"></iconify-icon>
+    popupOnStart: default
+  
 
   # Lastly, you can hide actions from the web UI, this is useful for creating
   # background helpers that execute only on startup or a cron, for updating
@@ -194,12 +189,6 @@ entities:
   # will load properly.
   #
   # Docs: https://docs.olivetin.app/entities.html
-  - file: entities/servers.yaml
-    name: server
-
-  - file: entities/containers.json
-    name: container
-
   - file: /etc/OliveTin/entities/logs.json
     name: log
   
@@ -240,15 +229,9 @@ dashboards:
           - title: Cooldown {{ temps.name }}
 
   # This is the second dashboard.
-  - title: My Containers
+  - title: Help
     contents:
-      - title: "Container {{ container.Names }} ({{ container.Image }})"
-        entity: container
+      - title: "Help"
         type: fieldset
         contents:
-          - type: display
-            title: |
-              {{ container.RunningFor }} <br /><br /><strong>{{ container.State }}</strong>
-
-          - title: "Start {{ container.Names }}"
-          - title: "Stop {{ container.Names }}"
+          - title: Help
