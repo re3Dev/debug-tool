@@ -3,7 +3,7 @@ import json
 import time
 import os
 
-PRINTER_IP = "192.168.4.2"
+PRINTER_IP = "192.168.1.161"
 SYSTEM_FILE = "/etc/OliveTin/entities/system_data.json"
 TEMPS_FILE = "/etc/OliveTin/entities/printer_temps.json"
 
@@ -18,7 +18,7 @@ def get_printer_temps():
     temps_list = []  # Store each entry as a separate JSON object
 
     for component, name in COMPONENT_NAMES.items():
-        response = requests.get(f"{PRINTER_IP}/printer/objects/query?{component}=target,temperature")
+        response = requests.get(f"http://{PRINTER_IP}/printer/objects/query?{component}=target,temperature")
         if response.status_code == 200:
             json_data = response.json().get("result", {})
             if component in json_data.get("status", {}):
@@ -34,14 +34,14 @@ def get_printer_temps():
     return temps_list
 
 def get_printer_data():
-    response = requests.get(f"{PRINTER_IP}/printer/info")
+    response = requests.get(f"http://{PRINTER_IP}/printer/info")
     if response.status_code == 200:
         json_data = response.json().get("result", {})
         return {"hostname": json_data.get("hostname", "Unknown"), "state": json_data.get("state", "Unknown")}
     return {}
 
 def get_system_data():
-    response = requests.get(f"{PRINTER_IP}/machine/system_info")
+    response = requests.get(f"http://{PRINTER_IP}/machine/system_info")
     if response.status_code == 200:
         json_data = response.json().get("result", {})
         network_info = json_data.get("system_info", {}).get("network", {}).get("wlan0", {})

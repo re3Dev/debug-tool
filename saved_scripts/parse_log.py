@@ -24,34 +24,34 @@ def parse_open_file(filePath):
         return
 
     error_patterns = {
-    #"Thermocouple reader fault" : "\nNO MESSAGE PLEASE ADD DESCRIPTION",
     "thermocouple reader fault": """
-Check the USB connection between the Raspberry Pi (or host machine) and the mainboard. Over time, vibrations can loosen the connectors.
-
-Solution:
-1. Power off the printer.
-2. Unplug and replug the USB cable connecting the Raspberry Pi to the mainboard.
-3. Power the printer back on.
-4. If the issue persists, try using a different USB cable or port.
+    Look for max31856 [ERROR TYPE] in later errors for detailed solutions.
 """,
     
-    "max31856 over/under voltage/thermocouple out of range/thermocouple reader fault": """
-These errors are typically related to thermocouple issues, often caused by static buildup, grounding problems, or a faulty thermocouple.
+    "thermocouple out of range": """
+It read temperatures that were higher or lower than the allowed range.
 
-Solution:
+Fire Hazard!
+Safety Feature, so it shouldn't happen. Check heater wiring.
+
+Machine is now a fire risk, be careful!
+
+""", "max31856: over/under voltage fault" : """
+Check the grounding cables on the trolley plate and the bed plate.
+
+Quick Fix: 
 1. Turn off the machine.
 2. Unplug the yellow thermocouple connectors.
 3. Turn the machine back on.
 4. Press ‘Restart’ on the touchscreen when booted up.
 5. Plug the yellow thermocouple connectors back in.
 6. Press ‘Firmware_Restart’ on the touchscreen.
+""", "max31856: thermocouple open fault" : """
+    The thermocouple wiring is faulty or the thermocouple is bad. 
 
-Further Troubleshooting:
-- If the issue persists, copy the extruder and bed heater sections from `/build/fff_heaters.cfg` and paste them into the standalone config file.  
-- Adjust the min and max temperature values to `-273.15` and `999999` to bypass the error and identify the faulty thermocouple.
-- Inspect the yellow thermocouple connector at the toolhead for loose wires. Use a precision screwdriver to expose more wire if needed.
+    Solution: 
+    Replace thermocouple or check wiring.
 """,
-
     "shutdown due to webhooks request": """
 This error occurs when the emergency stop button is pressed in the software.
 
@@ -82,7 +82,38 @@ Solution:
    - Copy `/build/fff_extruders.cfg` and paste it into `standalone.cfg`.
    - Increase `max_extrude_cross_section` and `max_extrude_only_distance`.
    - Save the changes and restart the printer.
-"""
+""", "no trigger on": """
+No trigger on z after full movement
+We tried to home that motor and it never reached the home position
+Solution: Check the motor and limit switches for the corresponding axis.
+""", "got eof": """
+
+Check the USB connection between the Raspberry Pi (or host machine) and the mainboard. Over time, vibrations can loosen the connectors.
+
+Solution:
+1. Power off the printer.
+2. Unplug and replug the USB cable connecting the Raspberry Pi to the mainboard.
+3. Power the printer back on.
+4. If the issue persists, try using a different USB cable or port.
+""", "unable to open serial port": """
+The serial id on the archimajor board isn't being read properly. So the raspberry pi and the board can't communication.
+
+Solution:
+Check the serial id using ls /dev/serial/by-id to see the actual serial id of the archimajor board
+If no file found: Check USB connection from raspberry pi to archimajor and reboot
+If file found and number is given: Check the config file in the bulid (_serial.cfg), and then in there we need to specify the serial (from the first ls command).
+""", "not heating at expected rate" : """
+    Either the heating error parameters are too strict, or the thermocouple is not reading correctly. 
+    
+    Solution:
+    You can view heating error parameters in the fff/fgf_heaters.cfg file under [verify_heater] - you can modify these parameters in the standalone.cfg file.
+""", "timeout with mcu" : "GCode was intensive. Try a different gcode file to see if error persists.",
+"max31856: cold junction range fault" : "Export this log and check back with software engineer.", 
+"max31856: thermocouple range fault" : "Check the thermocouple wiring and if error persists, export this log and check back with software engineer.\n", 
+"max31856: cold junction high fault" : "Export this log and check back with software engineer.", 
+"max31856: cold junction low fault" : "Export this log and check back with software engineer.", 
+"max31856: thermocouple high fault" : "Export this log and check back with software engineer.", 
+"max31856: thermocouple low fault" : "Export this log and check back with software engineer."
     }
 
 
@@ -104,7 +135,6 @@ Solution:
             print(f"{RED}  ⚠️  Error Detected:{RESET} {BOLD}{error}{RESET} \n")
             print(f"{GREEN}  💡  Possible Solution:{RESET}\n{help_message}")
             if error.lower() == "thermocouple reader fault":
-                print(f"{CYAN}\nLast known temperatures...{RESET}")
                 print(parse_klippy_log(filePath))
                 print("\n")
             print(f"{YELLOW}{'-' * 58}{RESET}")

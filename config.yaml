@@ -27,8 +27,8 @@ actions:
   #
   # If you are running OliveTin in a container remember to pass through the
   # docker socket! https://docs.olivetin.app/action-container-control.html
-  - title: Ping the Internet
-    shell: ping -c 3 1.1.1.1
+  - title: Check Printer Connection
+    shell: ping -c 3 192.168.4.2
     icon: <iconify-icon icon="material-symbols:wifi" width="48" height="48"></iconify-icon>
     popupOnStart: execution-dialog-stdout-only
 
@@ -36,7 +36,7 @@ actions:
   - title: Grab Logs
     shell: /home/pi/saved_scripts/save_log.sh
     icon: <iconify-icon icon="icon-park-outline:log" width="48" height="48"></iconify-icon>
-    popupOnStart: default
+    popupOnStart: execution-dialog-stdout-only
 
   # This uses `popupOnStart: execution-dialog-stdout-only` to simply show just
   # the command output.
@@ -59,7 +59,9 @@ actions:
   - title: Generate Load Graph
     icon: <iconify-icon icon="lets-icons:img-load-box-fill" width="48" height="48"></iconify-icon>
     timeout: 20
-    shell: /home/pi/klipper/scripts/graphstats.py /home/pi/saved_logs/{{ Log }} {{ Type }} -o /home/pi/graph.png
+    shell: |
+      /home/pi/klipper/scripts/graphstats.py /home/pi/saved_logs/{{ Log }} {{ Type }} -o /home/pi/graph.png
+      /home/pi/klipper/scripts/graphstats.py /home/pi/saved_logs/{{ Log }} {{ Type }} -o /home/pi/saved_graphs/graph$(date +"%T").png
     popupOnStart: default
     trigger: Display Last Loadgraph
     arguments:
@@ -147,10 +149,31 @@ actions:
   - title: Refresh Data
     shell: python /home/pi/saved_scripts/printer_data.py
     icon: <iconify-icon icon="solar:refresh-bold" width="48" height="48"></iconify-icon>
+    popupOnStart: execution-dialog-stdout-only
+
   
   - title: Help
     shell: su - pi -c "chromium-browser --no-sandbox --kiosk --zoom=100 file:///home/pi/help.html"
     icon: <iconify-icon icon="material-symbols:help" width="48" height="48"></iconify-icon>
+    popupOnStart: default
+  
+  - title: Bluetooth Connect
+    shell: /home/pi/saved_scripts/btconnect.sh
+    icon: <iconify-icon icon="material-symbols:bluetooth" width="48" height="48"></iconify-icon>
+    timeout: 15
+    popupOnStart: default
+  
+  - title: Terminal Popup
+    shell: /home/pi/saved_scripts/terminal_pop.sh
+    icon: <iconify-icon ico="material-symbols:terminal" width="48" height="48"></iconify-icon>
+    popupOnStart: execution-dialog-stdout-only
+  
+  - title: Delete All Logs & Graphs
+    shell: | 
+      > /etc/OliveTin/entities/logs.json
+      rm -r -f home/pi/saved_logs/*
+      rm -r -f home/pi/saved_graphs/*
+    icon: <iconify-icon icon="material-symbols:delete" width="48" height="48"></iconify-icon>
     popupOnStart: default
   
 
@@ -234,4 +257,7 @@ dashboards:
       - title: "Help"
         type: fieldset
         contents:
+          - title: Bluetooth Connect
           - title: Help
+          - title: Terminal Popup
+          - title: Delete All Logs & Graphs

@@ -4,6 +4,7 @@ MAC_ADDRESS="DC:2C:26:15:FB:E0"
 bluetoothctl <<EOF
 power on
 agent on
+pair $MAC_ADDRESS
 connect $MAC_ADDRESS
 exit
 EOF

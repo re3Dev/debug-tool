@@ -1,16 +1,3 @@
-{
-    "temps": {
-        "extruder": {
-            "target": 260.0,
-            "current": 259.56
-        },
-        "extruder1": {
-            "target": 260.0,
-            "current": 259.94
-        },
-        "heater_bed": {
-            "target": 115.0,
-            "current": 116.48
-        }
-    }
-}
+{"name": "Extruder 1", "target": 0.0, "current": 24.13}
+{"name": "Extruder 2", "target": 0.0, "current": 24.17}
+{"name": "Heater Bed", "target": 0.0, "current": 24.59}
