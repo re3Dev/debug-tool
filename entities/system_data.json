@@ -1,9 +1,9 @@
 {
     "system": {
-        "mac_address": "REDACTED"
+        "mac_address": "e4:5f:01:da:e9:5f"
     },
     "printer": {
-        "hostname": "re3Dv0-4-0",
+        "hostname": "TAYLORBOT",
         "state": "ready"
     }
 }
