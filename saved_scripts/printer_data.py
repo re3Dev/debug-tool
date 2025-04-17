@@ -3,7 +3,7 @@ import json
 import time
 import os
 
-PRINTER_IP = "192.168.1.161"
+PRINTER_IP = "192.168.4.2"
 SYSTEM_FILE = "/etc/OliveTin/entities/system_data.json"
 TEMPS_FILE = "/etc/OliveTin/entities/printer_temps.json"
 

@@ -29,7 +29,7 @@ def parse_klippy_log(file_path):
         if "print_stall" in line:
             valid_extruder = True
         
-        # Check for supply_voltage before parsing heater_bed temperature
+        # Check for freq before parsing heater_bed temperature
         if "freq" in line:
             valid_heater_bed = True
         
