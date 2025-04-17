@@ -131,7 +131,7 @@ def sync_repo_from_pi():
     print(changes_detected)
 
     if changes_detected:
-        print("🔄 Committing and pushing changes to the remote repo...")
+        print("Committing and pushing changes to the remote repo...")
         repo.git.add(A=True)  # Stage all changes
         commit_message = input("Enter the commit message: ")
         repo.index.commit(commit_message)  # Commit changes
