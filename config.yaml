@@ -36,7 +36,7 @@ actions:
   - title: Grab Logs
     shell: /home/pi/saved_scripts/save_log.sh
     icon: <iconify-icon icon="icon-park-outline:log" width="48" height="48"></iconify-icon>
-    popupOnStart: execution-dialog-stdout-only
+    popupOnStart: default
 
   # This uses `popupOnStart: execution-dialog-stdout-only` to simply show just
   # the command output.
@@ -124,7 +124,7 @@ actions:
     popupOnStart: execution-dialog-stdout-only
     timeout: 1000
   
-  - title: Export Logs
+  - title: Export Logs & Graphs
     shell: "/home/pi/saved_scripts/copy_to_usb.sh"
     icon: <iconify-icon icon="mdi:file-export" width="48" height="48"></iconify-icon>
     popupOnStart: execution-dialog-stdout-only
@@ -165,7 +165,7 @@ actions:
   
   - title: Terminal Popup
     shell: /home/pi/saved_scripts/terminal_pop.sh
-    icon: <iconify-icon ico="material-symbols:terminal" width="48" height="48"></iconify-icon>
+    icon: <iconify-icon icon="material-symbols:terminal" width="48" height="48"></iconify-icon>
     popupOnStart: execution-dialog-stdout-only
   
   - title: Delete All Logs & Graphs
