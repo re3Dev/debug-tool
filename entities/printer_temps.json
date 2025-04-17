@@ -1,3 +1,3 @@
-{"name": "Extruder 1", "target": 0.0, "current": 24.13}
-{"name": "Extruder 2", "target": 0.0, "current": 24.17}
-{"name": "Heater Bed", "target": 0.0, "current": 24.59}
+{"name": "Extruder 1", "target": 220.0, "current": 219.61}
+{"name": "Extruder 2", "target": 0.0, "current": 35.74}
+{"name": "Heater Bed", "target": 0.0, "current": 32.34}
