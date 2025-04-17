@@ -17,45 +17,28 @@ themeName: dark-mode
 pageTitle: re:3D
 sectionNavigationStyle: topbar
 
-# Actions are commands that are executed by OliveTin, and normally show up as
-# buttons on the WebUI.
-#
-# Docs: https://docs.olivetin.app/create-your-first-action.html
+#ACTIONS
 actions:
-  # This is the most simple action, it just runs the command and flashes the
-  # button to indicate status.
-  #
-  # If you are running OliveTin in a container remember to pass through the
-  # docker socket! https://docs.olivetin.app/action-container-control.html
+
+    # Uses Ping to check the connection to the printer
   - title: Check Printer Connection
     shell: ping -c 3 192.168.4.2
     icon: <iconify-icon icon="material-symbols:wifi" width="48" height="48"></iconify-icon>
     popupOnStart: execution-dialog-stdout-only
 
-  # MY COMMAND (Grabs the klippy log from the printer)
+  # Grabs the klippy log from the printer
   - title: Grab Logs
     shell: /home/pi/saved_scripts/save_log.sh
     icon: <iconify-icon icon="icon-park-outline:log" width="48" height="48"></iconify-icon>
     popupOnStart: default
 
-  # This uses `popupOnStart: execution-dialog-stdout-only` to simply show just
-  # the command output.
+  # Displays the mainsail interface
   - title: Interface Pop-up
     icon: <iconify-icon icon="uil:rss-interface" width="48" height="48"></iconify-icon>
     shell: su - pi -c "chromium-browser --no-sandbox --kiosk --zoom=100 file:///home/pi/interface.html"
     popupOnStart: default
 
-  # This uses `popupOnStart: execution-dialog` to show a dialog with more
-  # information about the command that was run.
-
-  # This uses `popupOnStart: execution-button` to display a mini button that
-  # links to the logs.
-  
-
-  # You are not limited to operating system commands, and of course you can run
-  # your own scripts. Here `maxConcurrent` stops the script running multiple
-  # times in parallel. There is also a timeout that will kill the command if it
-  # runs for too long.
+  # Uses the klipper script to generate a certain type of graph based on user choice (Dynamic Graph and Type)
   - title: Generate Load Graph
     icon: <iconify-icon icon="lets-icons:img-load-box-fill" width="48" height="48"></iconify-icon>
     timeout: 20
@@ -81,12 +64,13 @@ actions:
           - title: heater temperature
             value: "-t HEATER"
 
+  # Finds the graph.png that was made from the previous command and uses chromium to display it with an iframe
   - title: Display Last Loadgraph
     shell: su - pi -c "chromium-browser --no-sandbox --kiosk --zoom=100 file:///home/pi/graph_display.html"
     icon: <iconify-icon icon="mdi:graph-line" width="48" height="48"></iconify-icon>
     popupOnStart: default
 
-  # Displays what and where errors were found in a file
+  # Displays what errors were found in a file and some possible solutions to different problems.
   - title: Display Errors in Log
     shell: python /home/pi/saved_scripts/parse_log.py /home/pi/saved_logs/{{ Log }}
     icon: <iconify-icon icon="bxs:error" width="48" height="48"></iconify-icon>
@@ -99,6 +83,7 @@ actions:
           - value: "{{ log.Name }}"
             title: "{{ log.Name }}"
 
+# Uses the klippy log to display the last known temperatures by looking at the end of the file for the last occurance of it
   - title: Display Extruder Temps
     shell: python /home/pi/saved_scripts/parse_extruders.py /home/pi/saved_logs/{{ Log }}
     icon: <iconify-icon icon="fluent:temperature-24-filled" width="48" height="48"></iconify-icon>
@@ -111,6 +96,7 @@ actions:
           - value: "{{ log.Name }}"
             title: "{{ log.Name }}"
   
+  # Uses moonraker to send an API command of the inputted GCode CMD to the printer via the IP Address
   - title: Manual GCode
     shell: python /home/pi/saved_scripts/manual_gcode.py {{ GCode }}
     icon: <iconify-icon icon="mdi:console-line" width="48" height="48"></iconify-icon>
@@ -118,21 +104,23 @@ actions:
       - name: GCode
         type: ascii_sentence
 
+  # Using the dd command it flashes the inserted SD Card (sda)
   - title: Flash IMG to SD Card
     shell: "dd if=home/pi/re3D-KlipperV0-5-0.img of=/dev/sda bs=4M status=progress && sync"
     icon: <iconify-icon icon="mdi:sd-card" width="48" height="48"></iconify-icon>
     popupOnStart: execution-dialog-stdout-only
     timeout: 1000
   
+  # Exports all the Logs and Graphs that are stored in saved_logs and saved_graphs to the sda device.
   - title: Export Logs & Graphs
     shell: "/home/pi/saved_scripts/copy_to_usb.sh"
     icon: <iconify-icon icon="mdi:file-export" width="48" height="48"></iconify-icon>
     popupOnStart: execution-dialog-stdout-only
     timeout: 15
 
-  # The following actions are "dummy" actions, used in a Dashboard. As long as
-  # you have these referenced in a dashboard, they will not show up in the
-  # `actions` view.
+  # ACTIONS FOR HEATER CONTROL TAB:
+
+  # Sets the temperature of the extruder/heater bed
   - title: Set {{ temps.name }} Temp
     shell: python /home/pi/saved_scripts/set_temp.py {{ temps.name }} {{ Temperature }}
     entity: temps
@@ -141,33 +129,39 @@ actions:
       - name: Temperature
         type: int
   
+  # Cools the temperature of the extruder/heater bed to 0 celsius
   - title: Cooldown {{ temps.name }}
     shell: python /home/pi/saved_scripts/set_temp.py {{ temps.name }} 0
     entity: temps
     icon: <iconify-icon icon="mdi:snowflake" width="48" height="48"></iconify-icon>
   
+  # Grabs the most recent data from the printer via moonraker
   - title: Refresh Data
     shell: python /home/pi/saved_scripts/printer_data.py
     icon: <iconify-icon icon="solar:refresh-bold" width="48" height="48"></iconify-icon>
     popupOnStart: execution-dialog-stdout-only
 
-  
+  # HELP TAB ACTIONS
+  # Displays a page that shows short descriptions of all the actions
   - title: Help
     shell: su - pi -c "chromium-browser --no-sandbox --kiosk --zoom=100 file:///home/pi/help.html"
     icon: <iconify-icon icon="material-symbols:help" width="48" height="48"></iconify-icon>
     popupOnStart: default
   
+  # Reconnects the Pi to the keyboard if a disconnect happens
   - title: Bluetooth Connect
     shell: /home/pi/saved_scripts/btconnect.sh
     icon: <iconify-icon icon="material-symbols:bluetooth" width="48" height="48"></iconify-icon>
     timeout: 15
     popupOnStart: default
   
+  # Uses a sequence of keys to get the terminal open for more advanced technical debugging via the command line
   - title: Terminal Popup
     shell: /home/pi/saved_scripts/terminal_pop.sh
     icon: <iconify-icon icon="material-symbols:terminal" width="48" height="48"></iconify-icon>
     popupOnStart: execution-dialog-stdout-only
   
+  # Deletes the .json file that holds all the names of the files, and then removes them from the device via rm
   - title: Delete All Logs & Graphs
     shell: | 
       > /etc/OliveTin/entities/logs.json
@@ -207,17 +201,16 @@ actions:
 #
 # Docs: http://docs.olivetin.app/entities.html
 entities:
-  # YAML files are the default expected format, so you can use .yml or .yaml,
-  # or even .txt, as long as the file contains valid a valid yaml LIST, then it
-  # will load properly.
-  #
-  # Docs: https://docs.olivetin.app/entities.html
+  
+  # Holds the names of all the logs held on the Pi
   - file: /etc/OliveTin/entities/logs.json
     name: log
   
+  # Holds the system data that was refreshed from the printer 
   - file: /etc/OliveTin/entities/system_data.json
     name: system
   
+  # Holds the printer temperatures that were refreshed from the printer
   - file: /etc/OliveTin/entities/printer_temps.json
     name: temps
 
@@ -227,7 +220,9 @@ entities:
 # The only way to properly use entities, are to use them with a `fieldset` on
 # a dashboard.
 dashboards:
-  # Top level items are dashboards.
+  
+  # HEATER CONTROL DASHBOARD
+  # ACTIONS: Refresh Data, Set [NAME] Temp, Cooldown [NAME]
   - title: Heater Control
     contents:
       - title: "Printer Data"
@@ -251,7 +246,8 @@ dashboards:
           - title: Set {{ temps.name }} Temp
           - title: Cooldown {{ temps.name }}
 
-  # This is the second dashboard.
+  # HELP DASHBOARD
+  # ACTIONS: Bluetooth Connect, Help, Terminal Popup, Delete All Logs & Graphs
   - title: Help
     contents:
       - title: "Help"
