@@ -9,7 +9,7 @@
 - [Roadmap](#roadmap)
 
 ## Overview
-Field technicians often times don’t have the necessary tools to troubleshoot firmware issues with 3D printers onsite. The re:Bugger bridges this gap by providing a portable, user-friendly solution designed specifically for efficient onsite diagnostics and debugging.
+Field technicians often times don’t have the necessary tools to troubleshoot firmware issues with 3D printers onsite. The re:Bugger provides a portable, user-friendly solution designed specifically for efficient onsite diagnostics and debugging.
 
 ### Goals of re:Bugger:
 - Allow for onsite offline troubleshooting through direct connection.
@@ -46,9 +46,9 @@ Field technicians often times don’t have the necessary tools to troubleshoot f
 **Hardware:**
 1. Print the reBugger's `.stl` file -> (File) and the Raspberry Pi Case's `.stl` file -> (File)
 2. Assemble required components (Raspberry Pi, power bank, Ethernet cable, optional keyboard).
-  2a. Using the GPIO Pins, connect a 5V fan to the raspberry Pi and mount it to the back of the Pi.
-3. Mount Raspberry Pi in its case and connect power.
-4. Ensure all physical connections (Ethernet, USB) are secure.
+3. Using the GPIO Pins, connect a 5V fan to the raspberry Pi and mount it to the back of the Pi.
+4. Mount Raspberry Pi in its case and connect power.
+5. Ensure all physical connections (Ethernet, USB) are secure.
 
 ## Usage
 1. **Power on re:Bugger**  
